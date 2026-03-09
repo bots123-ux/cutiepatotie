@@ -1,31 +1,37 @@
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const username = document.getElementById('username').value.trim().toUpperCase();
-    
-    if(username === 'ANGELA ROSE VALENZUELA') {
-        // Change background
-        document.body.style.backgroundImage = 'url("https://c.tenor.com/LRDMe1QpqFYAAAAC/cat-cute.gif")';
-        
-        // Show success message
-        document.getElementById('loginContainer').classList.add('hidden');
-        document.getElementById('successMessage').classList.remove('hidden');
-    } else {
-        document.getElementById('error-message').textContent = 'Error: Please enter the correct name, Bahala ka jan.';
-    }
+// ── Floating hearts ──
+const emojis = ['❤️', '🩷', '💕', '💗', '🌸', '💝', '✨', '💖'];
+const container = document.getElementById('heartsContainer');
+
+function spawnHeart() {
+    const el = document.createElement('span');
+    el.className = 'heart-particle';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+
+    const dur = 5 + Math.random() * 6;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = (Math.random() * 3) + 's';
+    el.style.fontSize = (1 + Math.random() * 1.4) + 'rem';
+
+    container.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 3) * 1000);
+}
+
+// Spawn an initial batch, then keep spawning
+for (let i = 0; i < 12; i++) spawnHeart();
+setInterval(spawnHeart, 500);
+
+// ── Kiss modal ──
+const modal = document.getElementById('kissModal');
+
+document.getElementById('exitButton').addEventListener('click', () => {
+    modal.classList.add('show');
 });
 
-// Exit Button Handler
-document.getElementById('exitButton').addEventListener('click', function() {
-    document.getElementById('kissModal').classList.remove('hidden');
+document.getElementById('closeModal').addEventListener('click', () => {
+    modal.classList.remove('show');
 });
 
-// Close Modal Handlers
-document.querySelector('.close').addEventListener('click', function() {
-    document.getElementById('kissModal').classList.add('hidden');
-});
-
-document.getElementById('kissModal').addEventListener('click', function(e) {
-    if(e.target === this) {
-        this.classList.add('hidden');
-    }
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('show');
 });
